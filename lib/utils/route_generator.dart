@@ -8,9 +8,9 @@ class RouteGenerator {
     //final args = settings.arguments;
 
     switch (settings.name) {
-      case '/':
+      case MyHomePage.id:
         return MaterialPageRoute(builder: (_) => MyHomePage());
-      case '/addOrder':
+      case AddOrderPage.id:
         return MaterialPageRoute(builder: (_) => AddOrderPage());
       // Validation of correct data type
       /*       if (args is String) {

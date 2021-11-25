@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AddOrderPage extends StatefulWidget {
+  static const String id = '/addOrder';
   @override
   State<AddOrderPage> createState() => _MyHomePageState();
 }

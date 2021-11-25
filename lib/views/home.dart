@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../components/home/side_bar.dart';
 
 class MyHomePage extends StatefulWidget {
+  static const String id = '/';
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  CollectionReference _collectionRef =
+  final CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('products');
 
   Future<void> getData() async {
@@ -21,14 +23,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  void initState() {
-    print('se ejecuta el initState');
-    getData();
-  }
+  // void initState() {
+  //   print('se ejecuta el initState');
+  //   getData();
+  // }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('asd')),
+      appBar: AppBar(
+        title: Text('Churry\'s Waffles App'),
+      ),
+      drawer: SideBar(),
+      // floatingActionButton: ,
     );
   }
 }
