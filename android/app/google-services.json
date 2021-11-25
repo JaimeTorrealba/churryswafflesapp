@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "461397207207",
+    "project_id": "churryswafflesapp",
+    "storage_bucket": "churryswafflesapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461397207207:android:70b8d11328277c1eec1382",
+        "android_client_info": {
+          "package_name": "com.jaimetorrealba.churrys_waffles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461397207207-5oircnnal4culcvirmukk2nl9r7t1dik.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbyuft7NNeIAUxLDwnqEN6WahHE1N21XU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461397207207-5oircnnal4culcvirmukk2nl9r7t1dik.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
