@@ -1,4 +1,5 @@
 import 'package:churrys_waffles/views/add_order_page.dart';
+import 'package:churrys_waffles/views/history.dart';
 import 'package:churrys_waffles/views/home.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,13 @@ class SideBar extends StatelessWidget {
           title: Text('Add Order'),
           onTap: () => {
             Navigator.of(context).pushNamed(AddOrderPage.id),
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.history),
+          title: const Text('History'),
+          onTap: () => {
+            Navigator.of(context).pushNamed(History.id),
           },
         ),
         ListTile(

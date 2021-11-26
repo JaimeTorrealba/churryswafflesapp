@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../views/home.dart';
 import '../views/add_order_page.dart';
+import '../views/history.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -12,6 +13,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MyHomePage());
       case AddOrderPage.id:
         return MaterialPageRoute(builder: (_) => AddOrderPage());
+      case History.id:
+        return MaterialPageRoute(builder: (_) => const History());
       // Validation of correct data type
       /*       if (args is String) {
           return MaterialPageRoute(
