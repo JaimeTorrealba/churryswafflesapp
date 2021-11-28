@@ -37,13 +37,6 @@ class SideBar extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.home),
-          title: Text('All Orders'),
-          onTap: () => {
-            // Navigator.of(context).pushNamed(),
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.home),
           title: Text('Report'),
           onTap: () => {
             // Navigator.of(context).pushNamed(),
