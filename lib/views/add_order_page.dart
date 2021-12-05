@@ -12,11 +12,11 @@ class AddOrderPage extends StatefulWidget {
 
 class _MyHomePageState extends State<AddOrderPage> {
   Map<String, dynamic> newOrder = {
-    'totalQuantity': 0,
-    'totalPrice': 0,
+    'TotalQuantity': 0,
+    'TotalPrice': 0,
   };
   int totalQuantity = 0;
-  late dynamic productsData;
+  late List<Map<String, dynamic>> productsData;
 
   // final CollectionReference _collectionRef =
   //     FirebaseFirestore.instance.collection('products');
@@ -72,8 +72,9 @@ class _MyHomePageState extends State<AddOrderPage> {
                       width: 75,
                       child: TextFormField(
                         onChanged: (value) {
-                          productsData[i]['Quantity'] = value;
-                          updateNewOrder(i, value);
+                          productsData[i]['Quantity'] =
+                              int.tryParse(value) ?? 0;
+                          updateNewOrder();
                         },
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
@@ -86,21 +87,28 @@ class _MyHomePageState extends State<AddOrderPage> {
                 ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Text('Total:'),
-                Text(newOrder['totalQuantity'].toString())
+                Text(newOrder['TotalPrice'].toString()),
+                Text(newOrder['TotalQuantity'].toString()),
               ])
             ],
           ),
         ));
   }
 
-  dynamic updateNewOrder(key, value) {
+  void updateNewOrder() {
+    List<int> totalQuantityList = [];
+    List<int> totalPriceList = [];
+    for (var obj in productsData) {
+      totalQuantityList.add(obj["Quantity"]);
+      totalPriceList.add(obj["Price"] * obj["Quantity"]);
+    }
     setState(() {
-      newOrder['totalQuantity'] = newOrder['totalQuantity'] + int.parse(value);
+      //map all orders price sum, quantity sum, if properties
+      newOrder["TotalQuantity"] =
+          totalQuantityList.reduce((value, element) => value + element);
+      newOrder["TotalPrice"] =
+          totalPriceList.reduce((value, element) => value + element);
     });
-
-    print(productsData[key]);
-    print(newOrder['totalQuantity']);
-    print(value);
   }
 }
 
