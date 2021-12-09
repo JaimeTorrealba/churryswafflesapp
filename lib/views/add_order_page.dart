@@ -243,6 +243,8 @@ class _MyHomePageState extends State<AddOrderPage> {
       'Direction': direction,
       'PaymentType': paymentTypeConverted,
       'Products': productsInOrder,
+      'isPaid': false,
+      'isDelivered': false
     });
   }
 }
