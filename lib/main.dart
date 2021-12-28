@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'utils/route_generator.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+
+import 'utils/route_generator.dart';
+import 'providers/orders.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,13 +16,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Churry\'s Waffles App',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => Orders())
+      ],
+      child: MaterialApp(
+        title: 'Churry\'s Waffles App',
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
-      initialRoute: '/',
-      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

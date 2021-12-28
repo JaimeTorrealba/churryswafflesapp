@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+
 import '../components/home/side_bar.dart';
-import 'package:churrys_waffles/views/add_order_page.dart';
+import '../views/add_order_page.dart';
 import '../components/home/order_list.dart';
+import '../providers/orders.dart';
 
 class MyHomePage extends StatefulWidget {
   static const String id = '/';
@@ -24,10 +27,10 @@ class _MyHomePageState extends State<MyHomePage> {
   //   print(allData);
   // }
 
-  @override
+  // @override
   // void initState() {
-  //   print('se ejecuta el initState');
-  //   getData();
+  //   // Provider.of<Orders>(context).fetchAndSetProducts;
+  //   super.initState();
   // }
 
   Widget build(BuildContext context) {
