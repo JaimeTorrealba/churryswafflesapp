@@ -22,7 +22,7 @@ class _OrderListState extends State<OrderList> with WidgetsBindingObserver {
   void didChangeDependencies() {
     final orders = Provider.of<Orders>(context);
     if (!orders.initListOrders) {
-      orders.fetchAndSetProducts();
+      orders.fetchAndSetOrders();
       orders.setinitListOrder(true);
     }
     super.didChangeDependencies();

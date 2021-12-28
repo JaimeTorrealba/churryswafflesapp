@@ -1,3 +1,4 @@
+import 'package:churrys_waffles/providers/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -15,15 +16,22 @@ class Orders with ChangeNotifier {
     return _initListOrders;
   }
 
-  void setinitListOrder (bool status) {
+  void setinitListOrder(bool status) {
     _initListOrders = status;
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetOrders() async {
     final CollectionReference collectionRefOrders =
         FirebaseFirestore.instance.collection('orders');
     QuerySnapshot querySnapshot = await collectionRefOrders.get();
     final orders = querySnapshot.docs.map((order) {
+      final products = (order.get('Products') as List<dynamic>)
+          .map((product) => Product(
+                name: product['Name'],
+                price: product['Price'],
+                quantity: product['Quantity'],
+              ))
+          .toList();
       return Order(
         paymentType: order.get('PaymentType'),
         direction: order.get('Direction'),
@@ -31,35 +39,31 @@ class Orders with ChangeNotifier {
         isPaid: order.get('isPaid'),
         isDelivered: order.get('isDelivered'),
         price: order.get('Price'),
+        products: products,
       );
     }).toList();
     _orders = orders;
     notifyListeners();
   }
 
-  //   Future<void> addProduct(Product product) async {
-  //   final response = await http.post(
-  //     Uri.parse(
-  //         'https://sho-app-c8eb6-default-rtdb.firebaseio.com/products.json'),
-  //     body: json.encode(
-  //       {
-  //         'title': product.title,
-  //         'description': product.description,
-  //         'imageUrl': product.imageUrl,
-  //         'price': product.price,
-  //         'isFavorite': product.isFavorite,
-  //       },
-  //     ),
-  //   );
+  Future<void> addOrder(Order newOrder) async {
+    final CollectionReference _collectionRefOrders =
+        FirebaseFirestore.instance.collection('orders');
 
-  //   final newProduct = Product(
-  //     title: product.title,
-  //     description: product.description,
-  //     price: product.price,
-  //     imageUrl: product.imageUrl,
-  //     id: json.decode(response.body)['name'],
-  //   );
-  //   _items.add(newProduct);
-  //   notifyListeners();
-  // }
+    await _collectionRefOrders.add({
+      'Price': newOrder.price,
+      'Quantity': newOrder.quantity,
+      'Direction': newOrder.direction,
+      'PaymentType': newOrder.paymentType,
+      'Products': newOrder.products.map((product) => {
+            'Name': product.name,
+            'Price': product.price,
+            'Quantity': product.quantity,
+          }).toList(),
+      'isPaid': false,
+      'isDelivered': false
+    });
+    _orders.add(newOrder);
+    notifyListeners();
+  }
 }
