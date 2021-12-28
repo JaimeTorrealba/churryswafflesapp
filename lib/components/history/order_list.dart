@@ -17,7 +17,8 @@ class _OrderListState extends State<OrderList> {
         direction: 'Avenida Quilin',
         quantity: 4000,
         isPaid: false,
-        isDelivered: false)
+        isDelivered: false,
+        products: [])
   ];
 
   static const Map<bool, String> boolTranstalation = {

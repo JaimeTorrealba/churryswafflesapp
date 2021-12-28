@@ -1,6 +1,11 @@
+import 'package:churrys_waffles/providers/orders.dart';
 import 'package:flutter/material.dart';
 import '../components/commons/churrys_title.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../providers/order.dart';
+import '../../providers/product.dart';
+import 'package:provider/provider.dart';
 
 enum paymentType { E, T }
 
@@ -219,16 +224,25 @@ class _MyHomePageState extends State<AddOrderPage> {
   }
 
   void createNewOrder() async {
-    List<dynamic> productsInOrder = [];
+    List<Product> productsInOrder = [];
 
-    for (dynamic obj in productsData) {
-      if (obj["Quantity"] >= 1) {
-        productsInOrder.add(obj);
+    for (dynamic product in productsData) {
+      if (product["Quantity"] >= 1) {
+        productsInOrder.add(
+          Product(
+            name: product['Name'],
+            price: product['Price'],
+            quantity: product['Quantity'],
+          ),
+        );
       }
     }
     if (extraQuantity >= 1) {
-      productsInOrder.add(
-          {'Name': 'Extra', 'Price': extraPrice, 'Quantity': extraQuantity});
+      productsInOrder.add(Product(
+        name: 'Extra',
+        price: extraPrice,
+        quantity: extraQuantity,
+      ));
     }
     String paymentTypeConverted = '';
     if (paymentFlow == paymentType.E) {
@@ -237,16 +251,16 @@ class _MyHomePageState extends State<AddOrderPage> {
       paymentTypeConverted = 'T';
     }
 
-    await _collectionRefOrders.add({
-      'Price': newOrder["TotalPrice"],
-      'Quantity': newOrder["TotalQuantity"],
-      'Direction': direction,
-      'PaymentType': paymentTypeConverted,
-      'Products': productsInOrder,
-      'isPaid': false,
-      'isDelivered': false
-    });
+    final order = Order(
+        price: newOrder["TotalPrice"],
+        paymentType: paymentTypeConverted,
+        direction: direction,
+        quantity: newOrder["TotalQuantity"],
+        isPaid: false,
+        isDelivered: false,
+        products: productsInOrder);
 
+    Provider.of<Orders>(context, listen: false).addOrder(order);
   }
 }
 
