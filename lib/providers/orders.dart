@@ -20,6 +20,49 @@ class Orders with ChangeNotifier {
     _initListOrders = status;
   }
 
+  List<Order> get newOrders {
+    return _orders.where(
+      (order) {
+        return (!order.isDelivered && !order.isPaid);
+      },
+    ).toList();
+  }
+
+  List<Order> get paidOrders {
+    return _orders.where((order) {
+      return (!order.isDelivered && order.isPaid);
+    }).toList();
+  }
+
+  List<Order> get deliveredOrders {
+    return _orders.where((order) {
+      return (order.isDelivered && order.isPaid);
+    }).toList();
+  }
+
+  Future<void> setStatusOrder(
+      String orderId, bool isDelivered, bool isPaid) async {
+    final CollectionReference _collectionRefOrders =
+        FirebaseFirestore.instance.collection('orders');
+    await _collectionRefOrders
+        .doc(orderId)
+        .update({'isDelivered': isDelivered, 'isPaid': isPaid});
+    final existingProductIndex =
+        _orders.indexWhere((order) => order.id == orderId);
+    final existingProduct = _orders[existingProductIndex];
+    _orders[existingProductIndex] = Order(
+      id: existingProduct.id,
+      price: existingProduct.price,
+      paymentType: existingProduct.paymentType,
+      direction: existingProduct.direction,
+      quantity: existingProduct.quantity,
+      products: existingProduct.products,
+      isDelivered: isDelivered,
+      isPaid: isPaid,
+    );
+    notifyListeners();
+  }
+
   Future<void> fetchAndSetOrders() async {
     final CollectionReference collectionRefOrders =
         FirebaseFirestore.instance.collection('orders');
@@ -33,6 +76,7 @@ class Orders with ChangeNotifier {
               ))
           .toList();
       return Order(
+        id: order.reference.id,
         paymentType: order.get('PaymentType'),
         direction: order.get('Direction'),
         quantity: order.get('Quantity'),
@@ -55,15 +99,29 @@ class Orders with ChangeNotifier {
       'Quantity': newOrder.quantity,
       'Direction': newOrder.direction,
       'PaymentType': newOrder.paymentType,
-      'Products': newOrder.products.map((product) => {
-            'Name': product.name,
-            'Price': product.price,
-            'Quantity': product.quantity,
-          }).toList(),
+      'Products': newOrder.products
+          .map((product) => {
+                'Name': product.name,
+                'Price': product.price,
+                'Quantity': product.quantity,
+              })
+          .toList(),
       'isPaid': false,
       'isDelivered': false
+    }).then((doc) {
+      newOrder.id = doc.id;
     });
     _orders.add(newOrder);
+    notifyListeners();
+  }
+
+  Future<void> deleteOrder(Order deletedOrder) async {
+    final CollectionReference _collectionRefOrders =
+        FirebaseFirestore.instance.collection('orders');
+    await _collectionRefOrders.doc(deletedOrder.id).delete();
+    final existingProductIndex =
+        _orders.indexWhere((order) => order.id == deletedOrder.id);
+    _orders.removeAt(existingProductIndex);
     notifyListeners();
   }
 }

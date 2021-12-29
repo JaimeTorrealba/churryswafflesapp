@@ -61,6 +61,7 @@ class _MyHomePageState extends State<AddOrderPage> {
   @override
   void initState() {
     getData();
+    super.initState();
   }
 
   Widget build(BuildContext context) {
@@ -69,12 +70,12 @@ class _MyHomePageState extends State<AddOrderPage> {
           title: const Text('Add new order'),
         ),
         body: Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitleAddProducts(),
+                const TitleAddProducts(),
                 for (int i = 0; i < productsData.length; i++)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +107,7 @@ class _MyHomePageState extends State<AddOrderPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Extra',
                     ),
                     SizedBox(
@@ -252,6 +253,7 @@ class _MyHomePageState extends State<AddOrderPage> {
     }
 
     final order = Order(
+        id: '',
         price: newOrder["TotalPrice"],
         paymentType: paymentTypeConverted,
         direction: direction,
