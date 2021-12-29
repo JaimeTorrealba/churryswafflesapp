@@ -8,7 +8,7 @@ class ChurrysTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      '$titleText',
+      titleText,
       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
     );
   }

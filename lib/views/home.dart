@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../components/home/side_bar.dart';
 import '../views/add_order_page.dart';
-import '../components/home/order_list.dart';
+import '../components/commons/order_list.dart';
 import '../providers/orders.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -33,18 +33,28 @@ class _MyHomePageState extends State<MyHomePage> {
   //   super.initState();
   // }
 
+  @override
+  void didChangeDependencies() {
+    final orders = Provider.of<Orders>(context);
+    if (!orders.initListOrders) {
+      orders.fetchAndSetOrders();
+      orders.setinitListOrder(true);
+    }
+    super.didChangeDependencies();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Churry\'s Waffles App'),
         ),
         drawer: SideBar(),
-         floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context).pushNamed(AddOrderPage.id);
-        },
-      ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.of(context).pushNamed(AddOrderPage.id);
+          },
+        ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -54,23 +64,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Title(
                   color: Colors.black,
                   child: const Text(
-                    'Pedidos Nuevos',
+                    'Pedidos Nuevos - Confirmación de Pago',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ),
-              const OrderList(),
+              OrderList(
+                orders: Provider.of<Orders>(context).newOrders,
+              ),
               Container(
                 padding: const EdgeInsets.only(top: 10),
                 child: Title(
                   color: Colors.black,
                   child: const Text(
-                    'Esperando Confirmación de Pago',
+                    'Pedidos - Esperando Entrega',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ),
-              const OrderList()
+              OrderList(
+                orders: Provider.of<Orders>(context).paidOrders,
+              )
             ],
           ),
         ));

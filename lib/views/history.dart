@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import '../components/history/order_list.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/orders.dart';
+import '../components/commons/order_list.dart';
 
 class History extends StatefulWidget {
   static const String id = '/history';
@@ -30,7 +33,9 @@ class _HistoryState extends State<History> {
                   ),
                 ),
               ),
-              const OrderList(),
+              OrderList(
+                orders: Provider.of<Orders>(context).deliveredOrders,
+              ),
             ],
           ),
         ));
