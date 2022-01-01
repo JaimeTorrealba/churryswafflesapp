@@ -51,6 +51,17 @@ class _OrderItemState extends State<OrderItem> {
           },
         ),
       );
+      buttons.add(
+        ElevatedButton(
+          child: const Text('Eliminar'),
+          autofocus: false,
+          onPressed: () {
+            buildOverlayCircularProgress(context);
+            Provider.of<Orders>(context, listen: false)
+                .deleteOrder(widget.order);
+          },
+        ),
+      );
     }
 
     if (order.isPaid && !order.isDelivered) {
@@ -84,6 +95,18 @@ class _OrderItemState extends State<OrderItem> {
           },
         ),
       );
+
+      buttons.add(
+        ElevatedButton(
+          child: const Text('Eliminar'),
+          autofocus: false,
+          onPressed: () {
+            buildOverlayCircularProgress(context);
+            Provider.of<Orders>(context, listen: false)
+                .deleteOrder(widget.order);
+          },
+        ),
+      );
     }
 
     if (order.isPaid && order.isDelivered) {
@@ -103,17 +126,6 @@ class _OrderItemState extends State<OrderItem> {
         ),
       );
     }
-
-    buttons.add(
-      ElevatedButton(
-        child: const Text('Eliminar'),
-        autofocus: false,
-        onPressed: () {
-          buildOverlayCircularProgress(context);
-          Provider.of<Orders>(context, listen: false).deleteOrder(widget.order);
-        },
-      ),
-    );
 
     return buttons;
   }
@@ -142,7 +154,7 @@ class _OrderItemState extends State<OrderItem> {
               style: const TextStyle(fontSize: 18),
             ),
             subtitle: Text(
-                'Tipo de Pago: ${Order.paymentTypes[widget.order.paymentType]}\nCantidad de Productos: ${widget.order.quantity}\nPrecio: \$ ${widget.order.price}'),
+                'Fecha de Orden: ${DateFormat('dd/MM hh:mm').format(widget.order.createdAt)}\nTipo de Pago: ${Order.paymentTypes[widget.order.paymentType]}\nCantidad de Productos: ${widget.order.quantity}\nPrecio: \$ ${widget.order.price}'),
             trailing: Icon(
               _expanded ? Icons.expand_less : Icons.expand_more,
               size: 40,
