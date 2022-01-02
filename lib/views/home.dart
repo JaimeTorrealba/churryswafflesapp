@@ -1,3 +1,4 @@
+import 'package:churrys_waffles/providers/products.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -14,31 +15,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // final CollectionReference _collectionRef =
-  //     FirebaseFirestore.instance.collection('products');
-
-  // Future<void> getData() async {
-  //   // Get docs from collection reference
-  //   QuerySnapshot querySnapshot = await _collectionRef.get();
-  //
-  //   // Get data from docs and convert map to List
-  //   final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-  //   print('se ejecuta el getData');
-  //   print(allData);
-  // }
-
-  // @override
-  // void initState() {
-  //   // Provider.of<Orders>(context).fetchAndSetProducts;
-  //   super.initState();
-  // }
 
   @override
   void didChangeDependencies() {
     final orders = Provider.of<Orders>(context);
+    final products = Provider.of<Products>(context);
     if (!orders.initListOrders) {
       orders.fetchAndSetOrders();
       orders.setinitListOrder(true);
+    }
+    if (!products.initListproducts) {
+      products.fetchAndSetProducts();
+      products.setinitListproduct(true);
     }
     super.didChangeDependencies();
   }
@@ -59,26 +47,30 @@ class _MyHomePageState extends State<MyHomePage> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.only(top: 25),
-                child: Title(
-                  color: Colors.black,
-                  child: const Text(
-                    'Pedidos Nuevos - Confirmación de Pago',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.only(top: 25),
+                  child: Title(
+                    color: Colors.black,
+                    child: const Text(
+                      'Pedidos Nuevos - Confirmación de Pago',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
                   ),
                 ),
               ),
               OrderList(
                 orders: Provider.of<Orders>(context).newOrders,
               ),
-              Container(
-                padding: const EdgeInsets.only(top: 10),
-                child: Title(
-                  color: Colors.black,
-                  child: const Text(
-                    'Pedidos - Esperando Entrega',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Title(
+                    color: Colors.black,
+                    child: const Text(
+                      'Pedidos - Esperando Entrega',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
                   ),
                 ),
               ),

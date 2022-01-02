@@ -7,6 +7,8 @@ import './order.dart';
 class Orders with ChangeNotifier {
   List<Order> _orders = [];
   bool _initListOrders = false;
+  bool _initListHistoryOrders = false;
+  Map<String, dynamic> _filter = {};
 
   List<Order> get orders {
     return [..._orders];
@@ -20,24 +22,46 @@ class Orders with ChangeNotifier {
     _initListOrders = status;
   }
 
+  bool get initListHistoryOrders {
+    return _initListHistoryOrders;
+  }
+
+  void setinitListHistoryOrders(bool status) {
+    _initListHistoryOrders = status;
+  }
+
+  Map<String, dynamic> get filters {
+    return _filter;
+  }
+
+  void setFilters(Map<String, dynamic> filters) {
+    _filter = filters;
+  }
+
   List<Order> get newOrders {
-    return _orders.where(
+    final orders = _orders.where(
       (order) {
         return (!order.isDelivered && !order.isPaid);
       },
     ).toList();
+    orders.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    return orders;
   }
 
   List<Order> get paidOrders {
-    return _orders.where((order) {
+    final orders = _orders.where((order) {
       return (!order.isDelivered && order.isPaid);
     }).toList();
+    orders.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    return orders;
   }
 
   List<Order> get deliveredOrders {
-    return _orders.where((order) {
+    final orders = _orders.where((order) {
       return (order.isDelivered && order.isPaid);
     }).toList();
+    orders.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    return orders;
   }
 
   Future<void> setStatusOrder(
@@ -57,9 +81,11 @@ class Orders with ChangeNotifier {
       direction: existingProduct.direction,
       quantity: existingProduct.quantity,
       products: existingProduct.products,
+      createdAt: existingProduct.createdAt,
       isDelivered: isDelivered,
       isPaid: isPaid,
     );
+    setinitListHistoryOrders(false);
     notifyListeners();
   }
 
@@ -84,6 +110,7 @@ class Orders with ChangeNotifier {
         isDelivered: order.get('isDelivered'),
         price: order.get('Price'),
         products: products,
+        createdAt: DateTime.parse(order.get('CreatedAt').toDate().toString()),
       );
     }).toList();
     _orders = orders;
@@ -107,7 +134,8 @@ class Orders with ChangeNotifier {
               })
           .toList(),
       'isPaid': false,
-      'isDelivered': false
+      'isDelivered': false,
+      'CreatedAt': newOrder.createdAt,
     }).then((doc) {
       newOrder.id = doc.id;
     });

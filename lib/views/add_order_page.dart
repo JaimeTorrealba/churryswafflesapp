@@ -253,14 +253,16 @@ class _MyHomePageState extends State<AddOrderPage> {
     }
 
     final order = Order(
-        id: '',
-        price: newOrder["TotalPrice"],
-        paymentType: paymentTypeConverted,
-        direction: direction,
-        quantity: newOrder["TotalQuantity"],
-        isPaid: false,
-        isDelivered: false,
-        products: productsInOrder);
+      id: '',
+      price: newOrder["TotalPrice"],
+      paymentType: paymentTypeConverted,
+      direction: direction,
+      quantity: newOrder["TotalQuantity"],
+      isPaid: false,
+      isDelivered: false,
+      products: productsInOrder,
+      createdAt: DateTime.now(),
+    );
 
     Provider.of<Orders>(context, listen: false).addOrder(order);
   }
