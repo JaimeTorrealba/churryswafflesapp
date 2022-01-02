@@ -278,7 +278,7 @@ class _HistoryState extends State<History> with RestorationMixin {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('History'),
+          title: const Text('Historial'),
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.filter_list_rounded),

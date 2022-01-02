@@ -2,6 +2,7 @@ import 'package:churrys_waffles/providers/orders.dart';
 import 'package:churrys_waffles/views/add_order_page.dart';
 import 'package:churrys_waffles/views/history.dart';
 import 'package:churrys_waffles/views/home.dart';
+import 'package:churrys_waffles/views/report.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,21 +20,21 @@ class SideBar extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.home),
-          title: const Text('Home'),
+          title: const Text('Inicio'),
           onTap: () => {
             Navigator.of(context).pushNamed(MyHomePage.id),
           },
         ),
         ListTile(
           leading: const Icon(Icons.add_shopping_cart),
-          title: const Text('Add Order'),
+          title: const Text('Agregar Orden'),
           onTap: () => {
             Navigator.of(context).pushNamed(AddOrderPage.id),
           },
         ),
         ListTile(
           leading: const Icon(Icons.history),
-          title: const Text('History'),
+          title: const Text('Historial'),
           onTap: () => {
             Provider.of<Orders>(context, listen: false).setFilters({}),
             Provider.of<Orders>(context, listen: false)
@@ -42,10 +43,10 @@ class SideBar extends StatelessWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.home),
-          title: const Text('Report'),
+          leading: const Icon(Icons.receipt_long_outlined),
+          title: const Text('Reportes'),
           onTap: () => {
-            // Navigator.of(context).pushNamed(),
+            Navigator.of(context).pushNamed(Report.id),
           },
         ),
       ],

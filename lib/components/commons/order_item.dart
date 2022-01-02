@@ -162,13 +162,12 @@ class _OrderItemState extends State<OrderItem> {
             isThreeLine: true,
           ),
           if (_expanded)
-            Container(
+            Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 30,
                 vertical: 15,
               ),
-              height: min(widget.order.products.length * 20 + 100, 180),
-              child: ListView(
+              child: Column(
                 children: [
                   ...widget.order.products
                       .map(
